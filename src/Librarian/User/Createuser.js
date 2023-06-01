@@ -66,7 +66,7 @@ function Createuser() {
                         <span style={{ color: "red" }}>{formik.errors.name}</span>
                     </div>
 
-                    <div className='col-lg-4'>
+                    <div className='col-lg-6'>
                         <label >Email</label>
                         <input type='email'
                             name='mail'
@@ -75,7 +75,7 @@ function Createuser() {
                             className={`form-control ${formik.errors.mail ? "is-invalid" : "is-valid"}`} />
                         <span style={{ color: "red" }}>{formik.errors.mail}</span>
                     </div>
-                    <div className='col-lg-4'>
+                    <div className='col-lg-6'>
                         <label >City</label>
                         <input type='text'
                             name='city'
