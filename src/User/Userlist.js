@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import UserContext from '../../Usercontext'
+import UserContext from '../Usercontext'
 function Userlist() {
     let name = "librarian"
     const userData = useContext(UserContext)
