@@ -33,7 +33,7 @@ function ChangePassword() {
             },
             onSubmit: async (values) => {
                 try {
-                    const user = await axios.post(`http://localhost:8000/ChangePassword/${params.id}`, values);
+                    const user = await axios.post(`https://library-t4c2.onrender.com/ChangePassword/${params.id}`, values);
                     console.log(user)
                     alert(user.data.message);
                     navigate('/')

@@ -35,7 +35,7 @@ setloading(true)
 
     let getuser = async () => {
         try {
-            const user = await axios.get(`http://localhost:8000/user`, {
+            const user = await axios.get(`https://library-t4c2.onrender.com/user`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -53,7 +53,7 @@ setloading(true)
     }
     let getbook = async () => {
         try {
-            const books = await axios.get(`http://localhost:8000/books`, {
+            const books = await axios.get(`https://library-t4c2.onrender.com/books`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -75,7 +75,7 @@ setloading(true)
         
             console.log(state)
 
-            const datas = await axios.get(`http://localhost:8000/user/${state}`, {
+            const datas = await axios.get(`https://library-t4c2.onrender.com/user/${state}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -93,7 +93,7 @@ setloading(true)
         try {
             
             console.log(auth)
-            const datas = await axios.get(`http://localhost:8000/books/${auth}`, {
+            const datas = await axios.get(`https://library-t4c2.onrender.com/books/${auth}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -163,7 +163,7 @@ setloading(true)
 
 
 
-                const user = await axios.post("http://localhost:8000/withdraw", values, {
+                const user = await axios.post("https://library-t4c2.onrender.com/withdraw", values, {
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

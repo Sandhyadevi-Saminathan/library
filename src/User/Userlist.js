@@ -16,7 +16,7 @@ function Userlist() {
     }, []);
     let getuser = async () => {
         try {
-            const users = await axios.get("http://localhost:8000/user", {
+            const users = await axios.get("https://library-t4c2.onrender.com/user", {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -36,7 +36,7 @@ function Userlist() {
             const confirm = window.confirm("Are u sure?")
             if (confirm) {
 
-                await axios.delete(`http://localhost:8000/userdel/${userdata}`, {
+                await axios.delete(`https://library-t4c2.onrender.com/userdel/${userdata}`, {
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

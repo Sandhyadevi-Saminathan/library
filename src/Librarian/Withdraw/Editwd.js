@@ -21,7 +21,7 @@ function Editwd() {
     let getuser = async () => {
 
         try {
-            const user = await axios.get(`http://localhost:8000/withdraw/${params.id}`,{
+            const user = await axios.get(`https://library-t4c2.onrender.com/withdraw/${params.id}`,{
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -70,7 +70,7 @@ function Editwd() {
         onSubmit: async (values) => {
             try {
                 setupdating(true)
-                const user = await axios.put(`http://localhost:8000/editwithdraw/${params.id}`, values,{
+                const user = await axios.put(`https://library-t4c2.onrender.com/editwithdraw/${params.id}`, values,{
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

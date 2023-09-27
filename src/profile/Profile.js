@@ -14,7 +14,7 @@ function Profile() {
     }, [])
     let fetchUsers = async () => {
         try {
-            let userData = await axios.get(`http://localhost:8000/user/${params.id}`, {
+            let userData = await axios.get(`https://library-t4c2.onrender.com/user/${params.id}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }

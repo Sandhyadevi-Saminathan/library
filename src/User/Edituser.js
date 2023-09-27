@@ -18,7 +18,7 @@ function Edituser() {
     }, [])
     let getuser = async () => {
         try {
-            const user = await axios.get(`http://localhost:8000/user/${params.id}`, {
+            const user = await axios.get(`https://library-t4c2.onrender.com/user/${params.id}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -63,7 +63,7 @@ function Edituser() {
             try {
 
                 setupdating(true)
-                const user = await axios.put(`http://localhost:8000/users/${params.id}`, values, {
+                const user = await axios.put(`https://library-t4c2.onrender.com/users/${params.id}`, values, {
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

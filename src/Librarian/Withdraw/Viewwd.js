@@ -14,7 +14,7 @@ function Viewwd() {
     }, [])
     let getuser = async () => {
         try {
-            const datas = await axios.get(`http://localhost:8000/withdraw/${params.id}`,{
+            const datas = await axios.get(`https://library-t4c2.onrender.com/withdraw/${params.id}`,{
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }

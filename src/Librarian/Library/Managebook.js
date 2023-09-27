@@ -17,7 +17,7 @@ function Managebooks() {
     }, []);
     let getuser = async () => {
         try {
-            const users = await axios.get("http://localhost:8000/books", {
+            const users = await axios.get("https://library-t4c2.onrender.com/books", {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -34,7 +34,7 @@ function Managebooks() {
         try {
             const confirm = window.confirm("Are u sure?")
             if (confirm) {
-                await axios.delete(`http://localhost:8000/books/${id}`, {
+                await axios.delete(`https://library-t4c2.onrender.com/books/${id}`, {
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

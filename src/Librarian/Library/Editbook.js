@@ -19,7 +19,7 @@ function Editbook() {
     }, [])
     let getuser = async () => {
         try {
-            const user = await axios.get(`http://localhost:8000/books/${params.id}`, {
+            const user = await axios.get(`https://library-t4c2.onrender.com/books/${params.id}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -60,7 +60,7 @@ function Editbook() {
             try {
 
                 setupdating(true)
-                const user = await axios.put(`http://localhost:8000/books/${params.id}`, values, {
+                const user = await axios.put(`https://library-t4c2.onrender.com/books/${params.id}`, values, {
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }

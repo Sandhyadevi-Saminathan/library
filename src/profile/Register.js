@@ -49,7 +49,7 @@ function Register() {
         onSubmit: async (values) => {
             try {
 
-                let userData = await axios.post("http://localhost:8000/register", values);
+                let userData = await axios.post("https://library-t4c2.onrender.com/register", values);
                 window.localStorage.setItem("my_token", userData.data.token);
                 alert("Registered Successfully");
                 formik.resetForm();

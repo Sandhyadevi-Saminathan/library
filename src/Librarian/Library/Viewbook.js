@@ -17,7 +17,7 @@ function Viewbook() {
     }, [])
     let getuser = async () => {
         try {
-            const datas = await axios.get(`http://localhost:8000/books/${params.id}`, {
+            const datas = await axios.get(`https://library-t4c2.onrender.com/books/${params.id}`, {
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }

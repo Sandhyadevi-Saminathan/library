@@ -11,7 +11,7 @@ function Withdrawlist() {
     }, []);
     let getwdlist = async () => {
         try {
-            const users = await axios.get("http://localhost:8000/withdraw",{
+            const users = await axios.get("https://library-t4c2.onrender.com/withdraw",{
                 headers: {
                     Authorization: `${window.localStorage.getItem("token")}`
                 }
@@ -28,7 +28,7 @@ function Withdrawlist() {
         try {
             const confirm = window.confirm("Are u sure?")
             if (confirm) {
-                await axios.delete(`http://localhost:8000/dwithdraw/${id}`,{
+                await axios.delete(`https://library-t4c2.onrender.com/dwithdraw/${id}`,{
                     headers: {
                         Authorization: `${window.localStorage.getItem("token")}`
                     }
