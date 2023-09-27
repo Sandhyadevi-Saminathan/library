@@ -6,6 +6,7 @@ import UserContext from '../../Usercontext';
 
 function Managebooks() {
     let name = "librarian";
+    const data = localStorage.getItem('Role');
     const userData = useContext(UserContext)
 
     const [userlist, setuserlist] = useState([])
@@ -16,7 +17,11 @@ function Managebooks() {
     }, []);
     let getuser = async () => {
         try {
-            const users = await axios.get("https://6476d0759233e82dd53a5ea1.mockapi.io/books")
+            const users = await axios.get("http://localhost:8000/books", {
+                headers: {
+                    Authorization: `${window.localStorage.getItem("token")}`
+                }
+            })
             setuserlist(users.data)
             console.log(users.data)
             setloading(false)
@@ -29,7 +34,12 @@ function Managebooks() {
         try {
             const confirm = window.confirm("Are u sure?")
             if (confirm) {
-                await axios.delete(`https://6476d0759233e82dd53a5ea1.mockapi.io/books/${id}`)
+                await axios.delete(`http://localhost:8000/books/${id}`, {
+                    headers: {
+                        Authorization: `${window.localStorage.getItem("token")}`
+                    }
+                })
+                alert("Book deleted")
                 getuser()
             }
 
@@ -44,7 +54,7 @@ function Managebooks() {
             < div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">Book List </h1>
                 {
-                    userData.user.name == name ?
+                    data == name ?
                         (<Link to="/portal/createbook" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             className="fas fa-download fa-sm text-white-50"></i> Create Book</Link>
                         ) :
@@ -79,18 +89,18 @@ function Managebooks() {
                                             <td>{user.author}</td>
                                             <td>{user.year}</td>
                                             <td>{user.available}</td>
-                                            {userData.user.name == name ? (
+                                            {data == name ? (
                                                 <th>
-                                                    <Link to={`/portal/viewbook/${user.id}`} className='btn btn-info btn-sm mr-1'>View</Link>
-                                                    <Link to={`/portal/editbook/${user.id}`} className='btn btn-primary btn-sm mr-1'>Edit</Link>
+                                                    <Link to={`/portal/viewbook/${user._id}`} className='btn btn-info btn-sm mr-1'>View</Link>
+                                                    <Link to={`/portal/editbook/${user._id}`} className='btn btn-primary btn-sm mr-1'>Edit</Link>
                                                     <button onClick={() => {
-                                                        handledelete(user.id)
+                                                        handledelete(user._id)
                                                     }} className='btn btn-danger btn-sm mr-1'>Delete</button>
                                                 </th>
                                             ) :
 
                                                 <th>
-                                                    <Link to={`/portal/viewbook/${user.id}`} className='btn btn-primary'>View</Link>
+                                                    <Link to={`/portal/viewbook/${user._id}`} className='btn btn-primary'>View</Link>
                                                 </th>
                                             }
 

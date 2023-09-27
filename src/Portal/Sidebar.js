@@ -4,12 +4,14 @@ import UserContext from '../Usercontext'
 
 function Sidebar() {
     let name = "librarian";
+    const data = localStorage.getItem('Role');
+    const id = localStorage.getItem('ID');
     const userData = useContext(UserContext)
     console.log(userData.user.name)
     console.log(name)
     return (
         <>
-            {userData.user.name == name ?
+            {data == name ?
                 (
                     <ul className="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion mb-4 static-top shadow" id="accordionSidebar">
 
@@ -76,6 +78,11 @@ function Sidebar() {
                             <Link className="nav-link" to="/portal/managebooks">
                                 <i className="fas fa-fw fa-tachometer-alt"></i>
                                 <span>Book List</span></Link>
+                        </li>
+                        <li className="nav-item active">
+                            <Link className="nav-link" to={`/portal/withdrawlist/${id}`}>
+                                <i className="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Withdraw Details</span></Link>
                         </li>
 
                     </ul>

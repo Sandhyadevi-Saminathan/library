@@ -8,12 +8,12 @@ import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 
 function Editwd() {
-
+    const [isloading, setloading] = useState(true)
     const navigate = useNavigate();
 
 
 
-    const [isloading, setloading] = useState(false)
+    const [isupdating, setupdating] = useState(false)
     const params = useParams();
     useEffect(() => {
         getuser()
@@ -21,9 +21,14 @@ function Editwd() {
     let getuser = async () => {
 
         try {
-            const user = await axios.get(`https://647701449233e82dd53ab4db.mockapi.io/withdraw/${params.id}`)
+            const user = await axios.get(`http://localhost:8000/withdraw/${params.id}`,{
+                headers: {
+                    Authorization: `${window.localStorage.getItem("token")}`
+                }
+            })
 
             formik.setValues(user.data)
+            setloading(false)
             console.log(user.data)
         } catch (error) {
             console.log(error)
@@ -31,8 +36,8 @@ function Editwd() {
     }
     const formik = useFormik({
         initialValues: {
-            name: "",
-            number: "",
+            fname: "",
+            phone: "",
             bkname: "",
             author: "",
             date: ""
@@ -42,14 +47,14 @@ function Editwd() {
 
             let errors = {}
 
-            if (!values.name) {
-                errors.name = "Please Enter the User Name ";
+            if (!values.fname) {
+                errors.fname = "Please Enter the User Name ";
             }
             if (!values.bkname) {
                 errors.bkname = "Please Enter the User Name ";
             }
-            if (!values.number) {
-                errors.number = "Please Enter the User Number ";
+            if (!values.phone) {
+                errors.phone = "Please Enter the User Number ";
             }
             if (!values.author) {
                 errors.author = "Please Enter the Author Name ";
@@ -64,8 +69,12 @@ function Editwd() {
         },
         onSubmit: async (values) => {
             try {
-                setloading(true)
-                const user = await axios.put(`https://647701449233e82dd53ab4db.mockapi.io/withdraw/${params.id}`, values)
+                setupdating(true)
+                const user = await axios.put(`http://localhost:8000/editwithdraw/${params.id}`, values,{
+                    headers: {
+                        Authorization: `${window.localStorage.getItem("token")}`
+                    }
+                })
                 alert("update done")
                 console.log(user)
                 navigate('/portal/withdrawlist')
@@ -79,6 +88,13 @@ function Editwd() {
     })
     return (
         <>
+        {isloading ? (
+                <div class="col d-flex justify-content-center">
+                    <h1>Loading</h1>
+                </div>
+
+            )
+                :
             <div className='container'>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='row'>
@@ -86,23 +102,23 @@ function Editwd() {
                             <label >User Name</label>
                             <br />
                             <input
-                                name='name'
-                                value={formik.values.name}
+                                name='fname'
+                                value={formik.values.fname}
                                 onChange={formik.handleChange}
-                                className={`form-control ${formik.errors.name ? "is-invalid" : "is-valid"} `}
+                                className={`form-control ${formik.errors.fname ? "is-invalid" : "is-valid"} `}
                             >
                             </input>
-                            <span style={{ color: "red" }}>{formik.errors.name}</span>
+                            <span style={{ color: "red" }}>{formik.errors.fname}</span>
                         </div>
 
                         <div className='col-lg-6'>
                             <label >User Number</label>
                             <input type='text'
-                                name='number'
-                                value={formik.values.number}
+                                name='phone'
+                                value={formik.values.phone}
                                 onChange={formik.handleChange}
-                                className={`form-control ${formik.errors.number ? "is-invalid" : "is-valid"} `} />
-                            <span style={{ color: "red" }}>{formik.errors.number}</span>
+                                className={`form-control ${formik.errors.phone ? "is-invalid" : "is-valid"} `} />
+                            <span style={{ color: "red" }}>{formik.errors.phone}</span>
 
                         </div>
 
@@ -137,7 +153,7 @@ function Editwd() {
                             <span style={{ color: "red" }}>{formik.errors.date}</span>
                         </div>
                         <div className='col-lg-3 mt-4 '>
-                            <input type={"submit"} disabled={isloading} value={isloading ? "Updating.." : "Update"}
+                            <input type={"submit"} disabled={isupdating} value={isupdating ? "Updating.." : "Update"}
                                 className='btn btn-primary' />
                             <Link to={`/portal/withdrawlist`} className='btn btn-info ml-3'>Back</Link>
 
@@ -147,6 +163,7 @@ function Editwd() {
                     </div>
                 </form >
             </div>
+}
         </>
     )
 }

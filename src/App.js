@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import Login from './Login';
+import Login from './profile/Login';
 import Home from './Home';
 import Portal from './Portal/Portal';
 import Userlist from './User/Userlist';
@@ -18,6 +18,12 @@ import Viewwd from './Librarian/Withdraw/Viewwd';
 import Editwd from './Librarian/Withdraw/Editwd';
 
 import { Userprovider } from './Usercontext';
+import Register from './profile/Register';
+import Profile from './profile/Profile';
+import Withdrawdetails from './User/Withdrawdetails';
+import Forget from './password/Forget';
+import Verification from './password/Verification';
+import Changepassword from './password/Changepassword';
 
 
 
@@ -32,8 +38,10 @@ function App() {
           <Routes>
 
             <Route path="/" element={<Login />} />
-            <Route path='/home' element={<Home />} />
+            <Route path="/register" element={<Register />} />
+
             <Route path='/portal' element={<Portal />}>
+              <Route path='profile/:id' element={<Profile />} />
               <Route path='userlist' element={<Userlist />} />
               <Route path='viewuser/:id' element={<Viewuser />} />
               <Route path='edituser/:id' element={<Edituser />} />
@@ -46,9 +54,12 @@ function App() {
               <Route path='withdraw' element={<Withdraw />} />
               <Route path='viewwd/:id' element={<Viewwd />} />
               <Route path='editwd/:id' element={<Editwd />} />
+              <Route path='withdrawlist/:id' element={<Withdrawdetails />} />
               <Route path="/portal/managebooks" element={<Managebooks />} />
             </Route>
-
+            <Route path="/forget" element={<Forget/>} />
+            <Route path="/verification/:id" element={<Verification />} />
+            <Route path="/Changepassword/:id" element={<Changepassword/>} />
           </Routes>
         </Userprovider>
 

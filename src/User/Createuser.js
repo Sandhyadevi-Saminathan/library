@@ -10,39 +10,50 @@ function Createuser() {
     const [isloading, setloading] = useState(false)
     const formik = useFormik({
         initialValues: {
-            name: "",
-            mail: "",
-            city: "",
-            number: ""
+            email: "",
+            fname: "",
+            lname: "",
+            phone: "",
+            role: ""
 
         },
         validate: (values) => {
-            let errors = {}
-            if (!values.name) {
-                errors.name = "Name is required"
+            let error = {}
+            if (!values.fname) {
+                error.fname = "Please enter First Name";
+            } else if (values.fname.length <= 3) {
+                error.fname = "Please enter First Name"
+            }
+            if (!values.lname) {
+                error.lname = "Please enter Last Name";
+            }
+            if (!values.email) {
+                error.email = "Email is required"
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                error.email = "Enter a valid email"
             }
 
-            if (!values.mail) {
-                errors.mail = "Email is required"
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.mail)) {
-                errors.email = "Enter a valid email"
+            if (!values.phone) {
+                error.phone = "Please enter Phone Number";
             }
-
-            if (!values.city) {
-                errors.city = "City is required"
+            if (!values.role) {
+                error.role = "Please enter Your Role";
             }
-            if (!values.number) {
-                errors.number = "Number is required"
-            }
-            return errors;
+            return error;
         },
         onSubmit: async (values) => {
             try {
 
                 setloading(true)
-                const user = await axios.post("https://6476d0759233e82dd53a5ea1.mockapi.io/user", values)
-                console.log(user)
-                navigate(`/portal/userlist`)
+                let userData = await axios.post("http://localhost:8000/adduser", values, {
+                    headers: {
+                        Authorization: `${window.localStorage.getItem("token")}`
+                    }
+
+                });
+                alert("User Created");
+                formik.resetForm();
+                navigate("/portal/userlist");
             } catch (error) {
                 console.log(error)
             }
@@ -55,56 +66,75 @@ function Createuser() {
 
         <div className='container'>
             <form onSubmit={formik.handleSubmit}>
-                <div className='row'>
-                    <div className='col-lg-6'>
-                        <label >Name</label>
-                        <input type='text'
-                            name='name'
-                            value={formik.values.name}
+                <div className='row ml-1'>
+                    <div className='form-group col-lg-4'>
+                        <label>First Name</label>
+                        <input className={`form-control ${formik.errors.fname ? "is-invalid" : "is-valid"} `}
+                            name='fname'
+                            type="text"
                             onChange={formik.handleChange}
-                            className={`form-control ${formik.errors.name ? "is-invalid" : "is-valid"}`} />
-                        <span style={{ color: "red" }}>{formik.errors.name}</span>
+                            value={formik.values.fname}
+                        ></input>
+                        <span style={{ color: "red" }}>{formik.errors.fname}</span>
                     </div>
-
-                    <div className='col-lg-6'>
-                        <label >Email</label>
-                        <input type='email'
-                            name='mail'
-                            value={formik.values.mail}
+                    <div className='form-group col-lg-4'>
+                        <label>Last Name</label>
+                        <input className={`form-control ${formik.errors.lname ? "is-invalid" : "is-valid"} `}
+                            name='lname'
+                            type="text"
                             onChange={formik.handleChange}
-                            className={`form-control ${formik.errors.mail ? "is-invalid" : "is-valid"}`} />
-                        <span style={{ color: "red" }}>{formik.errors.mail}</span>
+                            value={formik.values.lname}
+                        ></input>
+                        <span style={{ color: "red" }}>{formik.errors.lname}</span>
                     </div>
-                    <div className='col-lg-6'>
-                        <label >City</label>
-                        <input type='text'
-                            name='city'
-                            value={formik.values.city}
-                            onChange={formik.handleChange}
-                            className={`form-control ${formik.errors.city ? "is-invalid" : "is-valid"}`} />
-                        <span style={{ color: "red" }}>{formik.errors.city}</span>
-                    </div>
-                    <div className='col-lg-4'>
-                        <label >Number</label>
-                        <input type='text'
-                            name='number'
-                            value={formik.values.number}
-                            onChange={formik.handleChange}
-                            className={`form-control ${formik.errors.number ? "is-invalid" : "is-valid"}`} />
-                        <span style={{ color: "red" }}>{formik.errors.number}</span>
-                    </div>
-
-
-                    <div className='col-lg-3 mt-4 '>
-                        <input type={"submit"} disabled={isloading} value={isloading ? "Loading.." : "Create"}
-                            className='btn btn-primary' />
-                        <Link to="/portal/userlist" className="btn btn-primary ml-2">Back</Link>
-
-                    </div>
-
-
                 </div>
-            </form >
+                <div className='form-group col-lg-4'>
+                    <label>Email</label>
+                    <input className={`form-control ${formik.errors.email ? "is-invalid" : "is-valid"} `}
+
+                        name='email'
+                        type="email"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                        placeholder='Enter Employee Email'></input>
+                    <span style={{ color: "red" }}>{formik.errors.email}</span>
+                </div>
+
+
+                <div className='form-group col-lg-4'>
+                    <label>Role</label>
+                    <input className={`form-control ${formik.errors.role ? "is-invalid" : "is-valid"} `}
+                        name='role'
+                        onChange={formik.handleChange}
+                        type="text"
+                        value={formik.values.role.toLocaleLowerCase()}
+
+                        placeholder='Librarian/User'></input>
+                    <span style={{ color: "red" }}>{formik.errors.role}</span>
+                </div>
+
+
+                <div className='form-group col-lg-4'>
+                    <label>Phone Number</label>
+                    <input className={`form-control ${formik.errors.phone ? "is-invalid" : "is-valid"} `}
+                        name='phone'
+                        onChange={formik.handleChange}
+                        type="number"
+                        value={formik.values.phone}
+                        placeholder='Enter Employee phone Number'></input>
+                    <span style={{ color: "red" }}>{formik.errors.phone}</span>
+                </div>
+                <div className='row ml-1'>
+                    <div className='form-group col-lg-2'>
+
+
+                        <button type='Submit' className='btn btn-primary rounded col-lg-12 justify-content-center align-items-center mt-2'>Add Employee</button>
+                    </div>
+                    <div className='form-group col-lg-2'>
+                        <Link to={'/portal/userlist'}> <button type='button' className='btn btn-danger rounded col-lg-12 justify-content-center align-items-center mt-2'>Back</button></Link>
+                    </div><hr />
+                </div>
+            </form>
         </div >
     )
 }

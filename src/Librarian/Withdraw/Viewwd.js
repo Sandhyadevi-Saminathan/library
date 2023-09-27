@@ -14,7 +14,11 @@ function Viewwd() {
     }, [])
     let getuser = async () => {
         try {
-            const datas = await axios.get(`https://647701449233e82dd53ab4db.mockapi.io/withdraw/${params.id}`)
+            const datas = await axios.get(`http://localhost:8000/withdraw/${params.id}`,{
+                headers: {
+                    Authorization: `${window.localStorage.getItem("token")}`
+                }
+            })
             setuser(datas.data)
             console.log(datas.data)
             setloading(false)
@@ -36,12 +40,12 @@ function Viewwd() {
                     <div class="card text-white bg-primary mb-3" style={{ width: "30rem" }}>
                         <div class="card-body">
                             <h4 class="card-title" style={{ textAlign: "center", color: "black" }} >Withdraw Details</h4>
-                            <h5 class="card-text" >User Name: {user.name}</h5>
-                            <h5 class="card-text" >Phone number: {user.number}</h5>
+                            <h5 class="card-text" >User Name: {user.fname}</h5>
+                            <h5 class="card-text" >Phone number: {user.phone}</h5>
                             <h5 class="card-text" >Book Name: {user.bkname}</h5>
                             <h5 class="card-text" >Author Name: {user.author}</h5>
                             <h5 class="card-text" >Withdraw date: {user.date}</h5>
-                            <Link to={`/portal/editwd/${user.id}`} className="btn btn-danger mr-2 mt-2">Edit</Link>
+                            <Link to={`/portal/editwd/${user._id}`} className="btn btn-danger mr-2 mt-2">Edit</Link>
                             <Link to={`/portal/withdrawlist`} className='btn btn-danger mr-2 mt-2'>Back</Link>
 
                         </div>

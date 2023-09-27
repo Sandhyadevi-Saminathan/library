@@ -8,11 +8,14 @@ function Portal() {
     return (
         <>
             <div id="wrapper">
+
                 <Sidebar></Sidebar>
                 <div id="content-wrapper" className="d-flex flex-column">
+
                     <div id="content">
                         <Topbar></Topbar>
                         <div className="container-fluid">
+
                             <Outlet></Outlet>
                         </div>
                     </div>

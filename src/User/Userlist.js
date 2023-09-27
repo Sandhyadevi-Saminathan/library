@@ -4,9 +4,10 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import UserContext from '../Usercontext'
 function Userlist() {
-    let name = "librarian"
+    let name = "librarian";
+    const data = localStorage.getItem('Role');
     const userData = useContext(UserContext)
-
+    const token = localStorage.getItem('token');
     const [userlist, setuserlist] = useState([])
     const [isloading, setloading] = useState(true)
     useEffect(() => {
@@ -15,33 +16,48 @@ function Userlist() {
     }, []);
     let getuser = async () => {
         try {
-            const users = await axios.get("https://6476d0759233e82dd53a5ea1.mockapi.io/user")
+            const users = await axios.get("http://localhost:8000/user", {
+                headers: {
+                    Authorization: `${window.localStorage.getItem("token")}`
+                }
+            });
             setuserlist(users.data)
             console.log(users.data)
+          
             setloading(false)
         } catch (error) {
             console.log(error)
         }
 
     }
-    let handledelete = async (id) => {
+    let handledelete = async (userdata) => {
+
         try {
             const confirm = window.confirm("Are u sure?")
             if (confirm) {
-                await axios.delete(`https://6476d0759233e82dd53a5ea1.mockapi.io/user/${id}`)
+
+                await axios.delete(`http://localhost:8000/userdel/${userdata}`, {
+                    headers: {
+                        Authorization: `${window.localStorage.getItem("token")}`
+                    }
+                })
+
+                alert('User deleted')
                 getuser()
             }
-
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error)
             alert("Something went wronmg")
         }
+
+
     }
     return (
         <>
             < div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">User List</h1>
-                {userData.user.name == name ?
+                {data == name ?
 
                     (
                         <Link to="/portal/createuser" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -60,7 +76,7 @@ function Userlist() {
                                 <tr>
                                     <th> Name</th>
                                     <th>Email</th>
-                                    <th>City</th>
+                                    <th>Role</th>
                                     <th>Number</th>
                                     <th>Action</th>
                                 </tr>
@@ -70,24 +86,24 @@ function Userlist() {
                                 {isloading ? (
                                     <h1>Loading</h1>
                                 ) :
-                                    userlist.map((user, index) => {
-                                        return <tr key={index}>
-                                            <td>{user.name}</td>
-                                            <td>{user.mail}</td>
-                                            <td>{user.city}</td>
-                                            <td>{user.number}</td>
-                                            {userData.user.name == name ?
+                                    userlist.map((user) => {
+                                        return <tr>
+                                            <td>{user.fname}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.role}</td>
+                                            <td>{user.phone}</td>
+                                            {data == name ?
                                                 (
                                                     <th>
-                                                        <Link to={`/portal/viewuser/${user.id}`} className='btn btn-info btn-sm mr-1'>View</Link>
-                                                        <Link to={`/portal/edituser/${user.id}`} className='btn btn-primary btn-sm mr-1'>Edit</Link>
+                                                        <Link to={`/portal/viewuser/${user._id}`} className='btn btn-info btn-sm mr-1'>View</Link>
+                                                        <Link to={`/portal/edituser/${user._id}`} className='btn btn-primary btn-sm mr-1'>Edit</Link>
                                                         <button onClick={() => {
-                                                            handledelete(user.id)
+                                                            handledelete(user._id)
                                                         }} className='btn btn-danger btn-sm mr-1'>Delete</button>
                                                     </th>
                                                 ) :
                                                 <th>
-                                                    <Link to={`/portal/viewuser/${user.id}`} className='btn btn-info btn-sm mr-1'>View</Link>
+                                                    <Link to={`/portal/viewuser/${user._id}`} className='btn btn-info btn-sm mr-1'>View</Link>
                                                 </th>
                                             }
 

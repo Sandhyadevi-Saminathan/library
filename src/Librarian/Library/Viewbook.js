@@ -8,7 +8,7 @@ import UserContext from '../../Usercontext';
 
 function Viewbook() {
     let name = "librarian";
-    const userData = useContext(UserContext)
+    const data = localStorage.getItem('Role');
     const [isloading, setloading] = useState(true)
     const [user, setuser] = useState([])
     const params = useParams();
@@ -17,7 +17,11 @@ function Viewbook() {
     }, [])
     let getuser = async () => {
         try {
-            const datas = await axios.get(`https://6476d0759233e82dd53a5ea1.mockapi.io/books/${params.id}`)
+            const datas = await axios.get(`http://localhost:8000/books/${params.id}`, {
+                headers: {
+                    Authorization: `${window.localStorage.getItem("token")}`
+                }
+            })
             setuser(datas.data)
             console.log(datas.data)
             setloading(false)
@@ -43,11 +47,11 @@ function Viewbook() {
                             <h5 class="card-text" >Author Name: {user.author}</h5>
                             <h5 class="card-text">Published Year: {user.year}</h5>
                             <h5 class="card-text" >Number of copies: {user.available}</h5>
-                            {userData.user.name == name ?
+                            {data == name ?
                                 (
 
                                     <>
-                                        <Link to={`/portal/editbook/${user.id}`} className="btn btn-danger mr-2 mt-2">Edit</Link>
+                                        <Link to={`/portal/editbook/${user._id}`} className="btn btn-danger mr-2 mt-2">Edit</Link>
                                         <Link to={`/portal/managebooks`} className='btn btn-danger mr-2 mt-2'>Back</Link>
                                     </>
                                 )

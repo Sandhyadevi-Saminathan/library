@@ -37,7 +37,12 @@ function Createbook() {
             try {
 
                 setloading(true)
-                const user = await axios.post("https://6476d0759233e82dd53a5ea1.mockapi.io/books", values)
+                const user = await axios.post("http://localhost:8000/books", values, {
+                    headers: {
+                        Authorization: `${window.localStorage.getItem("token")}`
+                    }
+                })
+                alert("Book Added")
                 console.log(user)
                 navigate(`/portal/managebooks`)
             } catch (error) {

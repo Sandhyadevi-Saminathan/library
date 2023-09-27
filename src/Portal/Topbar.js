@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 import UserContext from '../Usercontext'
 
 function Topbar() {
-    let name = "librarian"
+    let name = "librarian";
+    const data = localStorage.getItem('Role');
+    const id = localStorage.getItem('ID');
+
     const userData = useContext(UserContext)
     return (
         <>
-            {userData.user.name == name ? (
+            {data == name ? (
                 <nav className="navbar-nav bg-gradient-danger topbar topbar-dark accordion mb-4 static-top shadow">
 
                     {/* <!-- Topbar Navbar --> */}
@@ -17,8 +20,8 @@ function Topbar() {
                             <Link className="nav-link dropdown-toggle" to="/" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {/* <span class="font-weight-bold" style={{ color: "black" }}>Hello</span> */}
-                                <Link className="nav-link" to="/home">
-                                    <span className="mr-2 d-none d-lg-inline text-white - 600 medium" > Home</span>
+                                <Link className="nav-link" to={`/portal/profile/${id}`}>
+                                    <span className="mr-2 d-none d-lg-inline text-white - 600 medium" > Profile</span>
                                 </Link>
 
                                 <Link className="nav-link" to="/">
@@ -34,15 +37,16 @@ function Topbar() {
             ) :
                 <nav className="navbar-nav bg-gradient-primary topbar topbar-dark accordion mb-4 static-top shadow">
 
-                    {/* <!-- Topbar Navbar --> */}
+
                     <ul className="navbar-nav ml-auto">
-                        {/* <!-- Nav Item - User Information --> */}
+
                         <li className="nav-item dropdown no-arrow">
                             <Link className="nav-link dropdown-toggle" to="/" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
                                 {/* <span class="font-weight-bold" style={{ color: "black" }}>Hello</span> */}
-                                <Link className="nav-link" to="/home">
-                                    <span className="mr-2 d-none d-lg-inline text-white - 600 medium" > Home</span>
+                                <Link className="nav-link" to={`/portal/profile/${id}`}>
+                                    <span className="mr-2 d-none d-lg-inline text-white - 600 medium" > Profile</span>
                                 </Link>
 
                                 <Link className="nav-link" to="/">
